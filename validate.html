@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>[BETA] GradioSRV Validation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 2rem 3rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ab8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>GradioSRV Validation</h2>
+    <form id="validationForm">
+      <input type="text" id="role" name="role" placeholder="Role" required />
+      <input type="password" id="token" name="token" placeholder="Token" required />
+      <button type="submit">Validate</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('validationForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const role = document.getElementById('role').value;
+      const token = document.getElementById('token').value;
+
+      try {
+        const response = await fetch('/validate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ role, token })
+        });
+
+        const result = await response.json();
+        alert('Validation Result: ' + JSON.stringify(result));
+      } catch (error) {
+        alert('Unexpected Error: ' + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>
